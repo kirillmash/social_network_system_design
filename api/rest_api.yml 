@@ -1,0 +1,620 @@
+openapi: 3.0.0
+
+tags:
+  - name: Social Network for travelers
+
+
+info:
+  title: Social Network for travelers
+  description: API for Social Network for travelers
+  version: 1.0.0
+
+paths:
+  /cerate_post:
+    post:
+      summary: Create post
+      description: Method creates post
+      tags:
+        - Post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Title of the post
+                description:
+                  type: string
+                  description: Text of the post
+                photo_urls:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of photo urls
+                place:
+                  type: object
+                  description: Place where travel was
+                  properties:
+                    country:
+                      type: string
+                      description: Country where travel was
+                    city:
+                      type: string
+                      description: City where travel was
+                    title:
+                      type: string
+                      description: Title of the place
+              required:
+                - title
+                - description
+                - place
+            examples:
+              request:
+                value:
+                  title: "My first post"
+                  description: "Hello, world!"
+                  photo_urls:
+                    - "https://test.ru/12ae3c"
+                    - "https://test.ru/12ae3d"
+                  place:
+                    country: "Russia"
+                    city: "Moscow"
+                    title: "Red Square"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id of the post
+                  description:
+                    type: string
+                    description: Text of the post
+                  photo_urls:
+                    type: array
+                    items:
+                      type: string
+                    description: Array of photo urls
+                  place:
+                    type: object
+                    description: Place where travel was
+                    properties:
+                      country:
+                        type: string
+                        description: Country where travel was
+                      city:
+                        type: string
+                        description: City where travel was
+                      title:
+                        type: string
+                        description: Title of the place
+                required:
+                  - id
+                  - description
+                  - photo_urls
+                  - place
+              examples:
+                response:
+                  value:
+                    id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                    description: "Hello, world!"
+                    photo_urls:
+                      - "https://test.ru/12ae3c"
+                      - "https://test.ru/12ae3d"
+                    place:
+                      country: "Russia"
+                      city: "Moscow"
+                      title: "Red Square"
+        400:
+          description: Bad Request
+        500:
+          description: Server error
+
+  /get_post/{id}:
+    get:
+      summary: Get post by id
+      description: Method returns post by id
+      tags:
+        - Post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id of the post
+                  description:
+                    type: string
+                    description: Text of the post
+                  photo_urls:
+                    type: array
+                    items:
+                      type: string
+                    description: Array of photo urls
+                  place:
+                    type: object
+                    description: Place where travel was
+                    properties:
+                      country:
+                        type: string
+                        description: Country where travel was
+                      city:
+                        type: string
+                        description: City where travel was
+                      title:
+                        type: string
+                        description: Title of the place
+                required:
+                  - id
+                  - description
+                  - photo_urls
+                  - place
+              examples:
+                response:
+                  value:
+                    id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                    description: "Hello, world!"
+                    photo_urls:
+                      - "https://test.ru/12ae3c"
+                      - "https://test.ru/12ae3d"
+                    place:
+                      country: "Russia"
+                      city: "Moscow"
+                      title: "Red Square"
+        404:
+          description: Not found
+        500:
+          description: Server error
+
+  /like_post/{id}:
+    get:
+      summary: Like post
+      description: Method likes post
+      tags:
+        - Post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /dislike_post/{id}:
+    get:
+      summary: Dislike post
+      description: Method dislikes post
+      tags:
+        - Post
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Post id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /create_comment:
+    post:
+      summary: Create comment
+      description: Method creates comment
+      tags:
+        - Comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                post_id:
+                  type: string
+                  description: Post id
+                text:
+                  type: string
+                  description: Text of the comment
+              required:
+                - post_id
+                - text
+            examples:
+              request:
+                value:
+                  post_id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                  text: "Hello, world!"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id of the comment
+                  text:
+                    type: string
+                    description: Text of the comment
+                required:
+                  - id
+                  - text
+              examples:
+                response:
+                  value:
+                    id: "3a63d9e5-4be9-4c97-876d-c7b1f982383b"
+                    text: "Hello, world!"
+        400:
+          description: Bad Request
+        500:
+          description: Server error
+  /get_comments/{post_id}:
+    get:
+      summary: Get comments by post id
+      description: Method returns comments by post id
+      tags:
+        - Comment
+      parameters:
+        - name: post_id
+          in: path
+          required: true
+          description: Post id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: id of the comment
+                    text:
+                      type: string
+                      description: Text of the comment
+                required:
+                  - id
+                  - text
+              examples:
+                response:
+                  value:
+                    - id: "3a63d9e5-4be9-4c97-876d-c7b1f982383b"
+                      text: "Hello, world!"
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /get_posts:
+    get:
+      summary: Get posts
+      description: Method returns posts
+      tags:
+        - Post
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: Offset
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          description: Limit
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: id of the post
+                    description:
+                      type: string
+                      description: Text of the post
+                    photo_urls:
+                      type: array
+                      items:
+                        type: string
+                      description: Array of photo urls
+                    place:
+                      type: object
+                      description: Place where travel was
+                      properties:
+                        country:
+                          type: string
+                          description: Country where travel was
+                        city:
+                          type: string
+                          description: City where travel was
+                        title:
+                          type: string
+                          description: Title of the place
+                required:
+                  - id
+                  - description
+                  - photo_urls
+                  - place
+              examples:
+                response:
+                  value:
+                    - id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                      description: "Hello, world!"
+                      photo_urls:
+                        - "https://test.ru/12ae3c"
+                        - "https://test.ru/12ae3d"
+                      place:
+                        country: "Russia"
+                        city: "Moscow"
+                        title: "Red Square"
+        500:
+          description: Server error
+  /subscribe/{user_id}:
+    get:
+      summary: Subscribe
+      description: Method subscribes user
+      tags:
+        - User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /unsubscribe/{user_id}:
+    get:
+      summary: Unsubscribe
+      description: Method unsubscribes user
+      tags:
+        - User
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /popular_places:
+    get:
+      summary: Search for popular places
+      description: Method returns popular places
+      tags:
+        - Place
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: Offset
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          required: false
+          description: Limit
+          schema:
+            type: integer
+        - name: country
+          in: query
+          required: false
+          description: Country
+          schema:
+            type: string
+        - name: city
+          in: query
+          required: false
+          description: City
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                      description: Country where travel was
+                    city:
+                      type: string
+                      description: City where travel was
+                    title:
+                      type: string
+                      description: Title of the place
+                required:
+                  - country
+                  - city
+                  - title
+              examples:
+                response:
+                  value:
+                    [
+                      {
+                        country: "Russia",
+                        city: "Moscow",
+                        title: "Red Square"
+                      }
+                    ]
+        500:
+          description: Server error
+  /get_dialog/{user_id}:
+    get:
+      summary: Get dialog
+      description: Method returns dialog with user
+      tags:
+        - Messages
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          description: User id
+          schema:
+            type: string
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id of the dialog
+                  user_id:
+                    type: string
+                    description: User id
+                  messages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: id of the message
+                        text:
+                          type: string
+                          description: Text of the message
+                        created_at:
+                          type: string
+                          format: date-time
+                          description: Date of the message
+                    required:
+                      - id
+                      - text
+                      - created_at
+                required:
+                  - id
+                  - user_id
+                  - messages
+              examples:
+                response:
+                  value:
+                    id: "8ab5fdf6-e029-4643-828f-19abc6ac6c6e"
+                    user_id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                    messages:
+                      - id: "7aff92fb-4a1f-4347-88d5-b690c1494b19"
+                        text: "Hello, world!"
+                        created_at: "2022-01-01T00:00:00Z"
+        404:
+          description: Not found
+        500:
+          description: Server error
+  /send_message:
+    post:
+      summary: Send message
+      description: Method sends message
+      tags:
+        - Messages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: User id
+                text:
+                  type: string
+                  description: Text of the message
+              required:
+                - user_id
+                - text
+            examples:
+              request:
+                value:
+                  user_id: "81b91c93-cccf-438d-bc46-66d790dba5cc"
+                  text: "Hello, world!"
+      responses:
+        200:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: id of the message
+                  text:
+                    type: string
+                    description: Text of the message
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: Date of the message
+                required:
+                  - id
+                  - text
+                  - created_at
+              examples:
+                response:
+                  value:
+                    id: "7aff92fb-4a1f-4347-88d5-b690c1494b19"
+                    text: "Hello, world!"
+                    created_at: "2022-01-01T00:00:00Z"
+        400:
+          description: Bad Request
+        500:
+          description: Server error
