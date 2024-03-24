@@ -49,4 +49,24 @@ Required memory:
     images: 100MB/s * 86400 * 365 = 3PB
     text: 80KB/s * 86400 * 365 = 7GB
 
-Will use 5 hdd x2TB for posts storage and 170 ssd x20TB for images storage
+RPS (create comment):
+ 1 user write 1 comment daily, 500 symbols per comment
+    
+    10 000 000 / 86 400 = 115
+
+Traffic (create comment):
+    115 * 500 * 2 = 115KB/s
+
+Required memory:
+    115 * 86400 * 365 = 4GB
+
+Will use 5 hdd x2TB for posts storage and 170 ssd x20TB for images storage and 1 hdd x 500gb for comments storage
+
+For all storages will use master-slave replication with replication factor 2
+
+For storing posts will use sharding by user_id
+
+For storing images will use sharding by post_id
+
+For storing comments will use sharding by post_id
+in total we will have 5 hosts with 4TB hdd, 170 hosts with 40TB ssd and 2 host with 500GB hdd
