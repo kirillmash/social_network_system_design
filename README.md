@@ -22,6 +22,10 @@
 - one user views 15 posts in day
 - 2000 symbols for post
 - 5 photos for post
+- Timings:
+    - create post - 1s
+    - get posts - 2 s
+    - subscribe - 0.5 s
 
 ## Basic calculations
 
@@ -60,13 +64,4 @@ Traffic (create comment):
 Required memory:
     115 * 86400 * 365 = 4GB
 
-Will use 5 hdd x2TB for posts storage and 170 ssd x20TB for images storage and 1 hdd x 500gb for comments storage
-
-For all storages will use master-slave replication with replication factor 2
-
-For storing posts will use sharding by user_id
-
-For storing images will use sharding by post_id
-
-For storing comments will use sharding by post_id
-in total we will have 5 hosts with 4TB hdd, 170 hosts with 40TB ssd and 2 host with 500GB hdd
+Will use 20 hdd x1TB for posts storage and 170 ssd x20TB for images storage and 1 hdd x 500gb for comments storage

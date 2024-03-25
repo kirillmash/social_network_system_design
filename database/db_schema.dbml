@@ -14,15 +14,6 @@ Table locations {
   city string
 }
 
-Table trips {
-  id uuid
-  place string
-  description string
-  location_id uuid
-  longtitude decimal
-  latitude decimal
-}
-
 Table posts {
   id uuid
   user_id uuid
@@ -30,6 +21,10 @@ Table posts {
   description text
   images array
   trip_id uuid
+  location_id uuid
+  place string
+  longitude decimal
+  latitude decimal
   }
 
   Table likes {
@@ -58,8 +53,7 @@ Table posts {
   Ref: followers.follower_id > users.id
   Ref: followers.following_id > users.id
   Ref: posts.user_id > users.id
-  Ref: posts.trip_id > trips.id
-  Ref: trips.location_id > locations.id
+  Ref: posts.location_id > locations.id
   Ref: likes.user_id > users.id
   Ref: likes.post_id > posts.id
   Ref: messages.from_user_id > users.id
