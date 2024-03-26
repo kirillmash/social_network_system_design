@@ -1,0 +1,60 @@
+Table users {
+id uuid
+email string
+username string
+first_name string
+last_name string
+created_at datetime
+updated_at datetime
+}
+
+Table locations {
+  id uuid
+  country string
+  city string
+}
+
+Table posts {
+  id uuid
+  user_id uuid
+  title string
+  description text
+  images array
+  trip_id uuid
+  location_id uuid
+  place string
+  longitude decimal
+  latitude decimal
+  }
+
+  Table likes {
+    id integer
+    user_id uuid
+    post_id uuid
+  }
+
+  Table messages {
+    id uuid
+    from_user_id uuid
+    to_user_id uuid
+    created_at uuid
+    is_read bool
+  }
+
+  Table followers {
+    id integer
+    follower_id uuid
+    following_id uuid
+    Indexes {
+    (follower_id, following_id) [unique]
+  }
+  }
+
+  Ref: followers.follower_id > users.id
+  Ref: followers.following_id > users.id
+  Ref: posts.user_id > users.id
+  Ref: posts.location_id > locations.id
+  Ref: likes.user_id > users.id
+  Ref: likes.post_id > posts.id
+  Ref: messages.from_user_id > users.id
+  Ref: messages.to_user_id > users.id
